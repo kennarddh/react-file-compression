@@ -16,6 +16,20 @@ enum IFFmpegLoadState {
 	Loaded,
 }
 
+const DownloadFileFromURL = (url: string, fileName: string) => {
+	const a = document.createElement('a')
+
+	a.href = url
+	a.download = fileName
+
+	document.body.appendChild(a)
+
+	a.style.display = 'none'
+
+	a.click()
+	a.remove()
+}
+
 const App: FC = () => {
 	const [SelectedFile, SetSelectedFile] = useState<File | null>(null)
 	const [FFmpegLoadState, SetFFmpegLoadState] = useState<IFFmpegLoadState>(
@@ -35,9 +49,41 @@ const App: FC = () => {
 		SetSelectedFile(file)
 	}, [])
 
-	const OnCompress = useCallback(() => {
-		console.log(SelectedFile)
-	}, [SelectedFile])
+	const OnCompress = useCallback(async () => {
+		if (!SelectedFile) return
+
+		const fileName = SelectedFile.name
+		const outputFileName = `output ${fileName}`
+
+		const fileBuffer = new Uint8Array(await SelectedFile.arrayBuffer())
+
+		const ffmpeg = FFmpegRef.current
+
+		console.log(await ffmpeg.listDir('/'))
+
+		await ffmpeg.writeFile(fileName, fileBuffer)
+
+		console.log(await ffmpeg.listDir('/'))
+
+		await ffmpeg.exec([
+			'-i',
+			fileName,
+			'-vf',
+			`scale=${TargetWidth}x${TargetHeight}`,
+			outputFileName,
+		])
+
+		const output = (await ffmpeg.readFile(outputFileName)) as Uint8Array
+		const outputBuffer = output.buffer
+
+		const objectURL = URL.createObjectURL(
+			new Blob([outputBuffer], { type: SelectedFile.type }),
+		)
+
+		DownloadFileFromURL(objectURL, outputFileName)
+
+		URL.revokeObjectURL(objectURL)
+	}, [SelectedFile, TargetHeight, TargetWidth])
 
 	const OnLoadFFmpeg = useCallback(async () => {
 		SetFFmpegLoadState(IFFmpegLoadState.Loading)

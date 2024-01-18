@@ -27,7 +27,9 @@ const App: FC = () => {
 	const InputRef = useRef<HTMLInputElement>(null)
 
 	const OnFileChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-		SetSelectedFile(event?.target?.files?.[0] ?? null)
+		const file = event?.target?.files?.[0] ?? null
+
+		SetSelectedFile(file)
 	}, [])
 
 	const OnCompress = useCallback(() => {
@@ -67,10 +69,11 @@ const App: FC = () => {
 
 	useEffect(() => {
 		if (!InputRef.current) return
-		if (!SelectedFile) return
 
 		const dataTransfer = new DataTransfer()
-		dataTransfer.items.add(SelectedFile)
+
+		if (SelectedFile && SelectedFile.type.startsWith('video/'))
+			dataTransfer.items.add(SelectedFile)
 
 		InputRef.current.files = dataTransfer.files
 	}, [SelectedFile])

@@ -1,4 +1,11 @@
-import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
+import {
+	ChangeEvent,
+	FC,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 
 import { FFmpeg } from '@ffmpeg/ffmpeg'
 import { fetchFile, toBlobURL } from '@ffmpeg/util'
@@ -17,6 +24,7 @@ const App: FC = () => {
 	const [FFmpegLog, SetFFmpegLog] = useState<string>('')
 
 	const FFmpegRef = useRef<FFmpeg>(new FFmpeg())
+	const InputRef = useRef<HTMLInputElement>(null)
 
 	const OnFileChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		SetSelectedFile(event?.target?.files?.[0] ?? null)
@@ -57,11 +65,21 @@ const App: FC = () => {
 		SetFFmpegLoadState(IFFmpegLoadState.Loaded)
 	}, [])
 
+	useEffect(() => {
+		if (!InputRef.current) return
+		if (!SelectedFile) return
+
+		const dataTransfer = new DataTransfer()
+		dataTransfer.items.add(SelectedFile)
+
+		InputRef.current.files = dataTransfer.files
+	}, [SelectedFile])
+
 	return (
 		<div>
 			{FFmpegLoadState === IFFmpegLoadState.Loaded ? (
 				<>
-					<input type='file' onChange={OnFileChange} />
+					<input type='file' onChange={OnFileChange} ref={InputRef} />
 					<button onClick={OnCompress}>Compress</button>
 					<pre>{FFmpegLog}</pre>
 				</>

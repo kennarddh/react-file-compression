@@ -23,6 +23,9 @@ const App: FC = () => {
 	)
 	const [FFmpegLog, SetFFmpegLog] = useState<string>('')
 
+	const [TargetWidth, SetTargetWidth] = useState<number>(1000)
+	const [TargetHeight, SetTargetHeight] = useState<number>(1000)
+
 	const FFmpegRef = useRef<FFmpeg>(new FFmpeg())
 	const InputRef = useRef<HTMLInputElement>(null)
 
@@ -83,6 +86,22 @@ const App: FC = () => {
 			{FFmpegLoadState === IFFmpegLoadState.Loaded ? (
 				<>
 					<input type='file' onChange={OnFileChange} ref={InputRef} />
+					<input
+						type='number'
+						onChange={event =>
+							SetTargetWidth(event.target.valueAsNumber)
+						}
+						value={TargetWidth}
+						placeholder='Target Height'
+					/>
+					<input
+						type='number'
+						onChange={event =>
+							SetTargetHeight(event.target.valueAsNumber)
+						}
+						value={TargetHeight}
+						placeholder='Target Height'
+					/>
 					<button onClick={OnCompress}>Compress</button>
 					<pre>{FFmpegLog}</pre>
 				</>

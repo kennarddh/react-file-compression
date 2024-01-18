@@ -54,10 +54,17 @@ export default defineConfig(({ mode }) => {
 		server: {
 			port: PORT || 3000,
 			open: OPEN_BROWSER === 'true' ? true : false,
+			headers: {
+				'Cross-Origin-Opener-Policy': 'same-origin',
+				'Cross-Origin-Embedder-Policy': 'require-corp',
+			},
 		},
 		envPrefix,
 		build: {
 			outDir: 'build',
+		},
+		optimizeDeps: {
+			exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],
 		},
 	}
 })

@@ -1,0 +1,69 @@
+{
+	"name": "reactjs-boilerplate",
+	"version": "1.0.0",
+	"description": "React js boilerplate",
+	"main": "src/index.js",
+	"type": "module",
+	"scripts": {
+		"start": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview",
+		"lint:check": "eslint src/**/*.{ts,tsx,json} ./vite.config.ts",
+		"lint:fix": "eslint --fix src/**/*.{ts,tsx,json} ./vite.config.ts",
+		"prettier:fix": "prettier -w \"src/**/*.{ts,tsx,json,md}\" \"*.md\" \"index.html\"  \"./vite.config.ts\" \"./tsconfig.json\" \"./tsconfig.node.json\" \"./.lintstagedrc.json\" \"./.eslintrc.js\"",
+		"prettier:check": "prettier -c \"src/**/*.{ts,tsx,json,md}\" \"*.md\"  \"index.html\" \"./vite.config.ts\" \"./tsconfig.json\" \"./tsconfig.node.json\" \"./.lintstagedrc.json\" \"./.eslintrc.js\"",
+		"clean": "rimraf build",
+		"pre-commit": "lint-staged",
+		"pre-push": "",
+		"prepare": "husky install"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kennarddh/reactjs-boilerplate.git"
+	},
+	"keywords": [
+		"react",
+		"reactjs",
+		"boilerplate",
+		"vite"
+	],
+	"author": "kennarddh",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/kennarddh/reactjs-boilerplate/issues"
+	},
+	"homepage": "https://github.com/kennarddh/reactjs-boilerplate#readme",
+	"devDependencies": {
+		"@trivago/prettier-plugin-sort-imports": "^4.3.0",
+		"@types/node": "^20.10.0",
+		"@types/react": "^18.2.38",
+		"@types/react-dom": "^18.2.17",
+		"@typescript-eslint/eslint-plugin": "^6.12.0",
+		"@typescript-eslint/parser": "^6.12.0",
+		"@vitejs/plugin-react": "^4.2.0",
+		"eslint": "^8.54.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-import-resolver-alias": "^1.1.2",
+		"eslint-import-resolver-typescript": "^3.6.1",
+		"eslint-plugin-import": "^2.29.0",
+		"eslint-plugin-json": "^3.1.0",
+		"eslint-plugin-jsx-a11y": "^6.8.0",
+		"eslint-plugin-prettier": "^5.0.1",
+		"eslint-plugin-react": "^7.33.2",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-security": "^1.7.1",
+		"husky": "^8.0.3",
+		"lint-staged": "^15.1.0",
+		"prettier": "^3.1.0",
+		"rimraf": "^5.0.5",
+		"typescript": "^5.3.2",
+		"vite": "^5.0.5",
+		"vite-plugin-checker": "^0.6.2",
+		"vite-plugin-svgr": "^4.2.0"
+	},
+	"dependencies": {
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"styled-components": "^6.1.1"
+	}
+}

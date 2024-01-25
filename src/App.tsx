@@ -59,11 +59,7 @@ const App: FC = () => {
 
 		const ffmpeg = FFmpegRef.current
 
-		console.log(await ffmpeg.listDir('/'))
-
 		await ffmpeg.writeFile(fileName, fileBuffer)
-
-		console.log(await ffmpeg.listDir('/'))
 
 		await ffmpeg.exec([
 			'-i',
